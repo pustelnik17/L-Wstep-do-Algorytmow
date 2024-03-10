@@ -12,14 +12,13 @@ def failingStudentsCount(matrix, threshold):
             failedSubjectCount += 1 if  mark == 2.0 else 0
         failingStudentsCount += 1 if failedSubjectCount >= threshold else 0
     print(failingStudentsCount)
-failingStudentsCount(matrix, threshold=4)
+failingStudentsCount(matrix, threshold=2)
 
 def marksOfStudentsMinAndMaxAverage(matrix):
     print("\n", "-" * 10, "Oceny studentów z najniższą i najwyższą średnią", "-" * 10)
     averages = [np.average(matrix[i]) for i in range(len(matrix))]
-    print(averages)
-    print("Minimum AVG: ", matrix[np.argmin(averages)])
-    print("Maximum AVG: ", matrix[np.argmax(averages)])
+    print("Minimum AVG: ", matrix[np.argmin(averages)], averages[np.argmin(averages)])
+    print("Maximum AVG: ", matrix[np.argmax(averages)], averages[np.argmax(averages)])
 marksOfStudentsMinAndMaxAverage(matrix)
 
 def studentWithMaximumNuberOfBestMarks(matrix):
