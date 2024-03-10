@@ -9,18 +9,6 @@ class Sort:
         return [np.random.randint(low, high=high) for _ in range(n)]
 
     @staticmethod
-    def bubbleSort(LST):
-        result = LST.copy()
-        LEN = len(result)
-        for i in range(LEN):
-            for j in range(0, LEN - 1):
-                if result[j] > result[j + 1]:
-                    temp = result[j]
-                    result[j] = result[j + 1]
-                    result[j + 1] = temp
-        return result
-
-    @staticmethod
     def bubbleSortBreak(LST):
         result = LST.copy()
         LEN = len(result)
@@ -38,6 +26,18 @@ class Sort:
 
     @staticmethod
     def bubbleSortShort(LST):
+        result = LST.copy()
+        LEN = len(result)
+        for i in range(LEN):
+            for j in range(0, LEN - 1):
+                if result[j] > result[j + 1]:
+                    temp = result[j]
+                    result[j] = result[j + 1]
+                    result[j + 1] = temp
+        return result
+    
+    @staticmethod
+    def bubbleSort(LST):
         result = LST.copy()
         LEN = len(result)
         for i in range(LEN):
@@ -87,9 +87,10 @@ def avgAndMaxExecutionTime():
     print(f"bubbleSort: avg: {np.average(exectionTimes["bubbleSort"])}ns max: {max(exectionTimes["bubbleSort"])}ns")
     print(f"insertionSort: avg: {np.average(exectionTimes["insertionSort"])}ns max: {max(exectionTimes["insertionSort"])}ns")
     print(f"selectionSort: avg: {np.average(exectionTimes["selectionSort"])}ns max: {max(exectionTimes["selectionSort"])}ns")
-# avgAndMaxExecutionTime()
+avgAndMaxExecutionTime()
 
 def plotExecuitonTimes():
+    print("-"*10, "średnie i maksymalne czasy działania poszczególnych algorytmów dla długości ciągów", "-"*10)
     tempDict = {10: [], 20: [], 50: [], 100: [], 200: [], 500: [], 1000: []}
     exectionTimes = {"bubbleSort": tempDict, "insertionSort": tempDict, "selectionSort": tempDict}
     for listSize in [10, 20, 50, 100, 200, 500, 1000]:
@@ -107,14 +108,12 @@ def plotExecuitonTimes():
         plt.ylabel("time(ns)")
         plt.legend()
         plt.show()
-# plotExecuitonTimes()
+plotExecuitonTimes()
 
 def modifiedBubbleSortComparison():
+    print("-"*10, "czasy działania wszystkich trzech wersji implementacyjnych algorytmu sortowania bąbelkowego", "-"*10)
     lst = Sort.generateList(1000)
     print("bubbleSort", Sort.checkExecutionTime(Sort.bubbleSort, lst))
     print("bubbleSortBreak", Sort.checkExecutionTime(Sort.bubbleSortBreak, lst))
     print("bubbleSortShort", Sort.checkExecutionTime(Sort.bubbleSortShort, lst))
-# modifiedBubbleSortComparison()
-
-def executionTests():
-    
+modifiedBubbleSortComparison()
