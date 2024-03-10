@@ -1,3 +1,4 @@
+# Hubert Jackowski
 import numpy as np
 
 okFlag = True

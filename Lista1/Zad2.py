@@ -1,3 +1,4 @@
+# Hubert Jackowski
 import numpy as np
 L, M = 5, 5
 p = np.random.randint(low = 1, high = 10, size=(L, M))
