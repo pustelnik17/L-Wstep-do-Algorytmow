@@ -88,7 +88,7 @@ def avgAndMaxExecutionTime():
     print(f"bubbleSort: avg: {np.average(exectionTimes["bubbleSort"])}ns max: {max(exectionTimes["bubbleSort"])}ns")
     print(f"insertionSort: avg: {np.average(exectionTimes["insertionSort"])}ns max: {max(exectionTimes["insertionSort"])}ns")
     print(f"selectionSort: avg: {np.average(exectionTimes["selectionSort"])}ns max: {max(exectionTimes["selectionSort"])}ns")
-# avgAndMaxExecutionTime()
+avgAndMaxExecutionTime()
 
 def plotExecuitonTimes():
     print("-"*10, "średnie i maksymalne czasy działania poszczególnych algorytmów dla długości ciągów", "-"*10)
@@ -117,14 +117,14 @@ def modifiedBubbleSortComparison():
     print("bubbleSort", Sort.checkExecutionTime(Sort.bubbleSort, lst))
     print("bubbleSortBreak", Sort.checkExecutionTime(Sort.bubbleSortBreak, lst))
     print("bubbleSortShort", Sort.checkExecutionTime(Sort.bubbleSortShort, lst))
-# modifiedBubbleSortComparison()
+modifiedBubbleSortComparison()
 
-# def executionTests():
-#     print("-"*10, "testy wydajnościowe: n/t(n) | (n · logn)/t(n)", "-"*10)
-#     n = 100100
-#     lst = Sort.generateList(n)
-#     for algorithm in [Sort.bubbleSort, Sort.insertionSort, Sort.selectionSort]:
-#         time = Sort.checkExecutionTime(algorithm, lst)
-#         print(algorithm.__name__, n / time, "#/ns")
-#         print(algorithm.__name__, (n * math.log2(n)) / time, "#/ns")
-# executionTests()
+def executionTests():
+    print("-"*10, "testy wydajnościowe: n/t(n) | (n · log(n))/t(n)", "-"*10)
+    for n in [10, 100, 1000]:
+        lst = Sort.generateList(n)
+        print(f"n={n}")
+        for algorithm in [Sort.bubbleSort, Sort.insertionSort, Sort.selectionSort]:
+            time = Sort.checkExecutionTime(algorithm, lst)
+            print(algorithm.__name__, "n/t(n): ", n / time, "#/ns   |  (n · log(n))/t(n)", (n * math.log2(n)) / time)
+executionTests()
