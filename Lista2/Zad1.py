@@ -85,9 +85,9 @@ def avgAndMaxExecutionTime():
         exectionTimes["bubbleSort"].append(Sort.checkExecutionTime(Sort.bubbleSort, lst))
         exectionTimes["insertionSort"].append(Sort.checkExecutionTime(Sort.insertionSort, lst))
         exectionTimes["selectionSort"].append(Sort.checkExecutionTime(Sort.selectionSort, lst))
-    print(f"bubbleSort: avg: {np.average(exectionTimes["bubbleSort"])}ns max: {max(exectionTimes["bubbleSort"])}ns")
-    print(f"insertionSort: avg: {np.average(exectionTimes["insertionSort"])}ns max: {max(exectionTimes["insertionSort"])}ns")
-    print(f"selectionSort: avg: {np.average(exectionTimes["selectionSort"])}ns max: {max(exectionTimes["selectionSort"])}ns")
+    print(f"bubbleSort: avg: {np.average(exectionTimes['bubbleSort'])}ns max: {max(exectionTimes['bubbleSort'])}ns")
+    print(f"insertionSort: avg: {np.average(exectionTimes['insertionSort'])}ns max: {max(exectionTimes['insertionSort'])}ns")
+    print(f"selectionSort: avg: {np.average(exectionTimes['selectionSort'])}ns max: {max(exectionTimes['selectionSort'])}ns")
 avgAndMaxExecutionTime()
 
 def plotExecuitonTimes():
@@ -126,5 +126,5 @@ def executionTests():
         print(f"n={n}")
         for algorithm in [Sort.bubbleSort, Sort.insertionSort, Sort.selectionSort]:
             time = Sort.checkExecutionTime(algorithm, lst)
-            print(algorithm.__name__, "n/t(n): ", n / time, "#/ns   |  (n · log(n))/t(n)", (n * math.log2(n)) / time)
+            print(algorithm.__name__, "n/t(n): ", n / time, "#/ns   |  (n · log(n))/t(n)", (n * math.log2(n)) / time, " |  (n^2)/t(n)",n**2 / time)
 executionTests()
