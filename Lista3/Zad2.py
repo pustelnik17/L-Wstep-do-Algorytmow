@@ -98,6 +98,32 @@ class CustomerQueue:
                 return self.pop(i)
         return 0
 
+    def bubbleSort1(self):
+        LEN = self.size()
+        for i in range(LEN):
+            for j in range(0, LEN - 1):
+                if self.complexity[j] > self.complexity[j + 1]:
+                    temp = self.complexity[j]
+                    self.complexity[j] = self.complexity[j + 1]
+                    self.complexity[j + 1] = temp
+                    temp = self.type[j]
+                    self.type[j] = self.type[j + 1]
+                    self.type[j + 1] = temp
+        return
+
+    def bubbleSort2(self):
+        LEN = self.size()
+        for i in range(LEN):
+            for j in range(0, LEN - 1):
+                if self.complexity[j] < self.complexity[j + 1]:
+                    temp = self.complexity[j]
+                    self.complexity[j] = self.complexity[j + 1]
+                    self.complexity[j + 1] = temp
+                    temp = self.type[j]
+                    self.type[j] = self.type[j + 1]
+                    self.type[j + 1] = temp
+        return
+
 
 def standardModel(office, customerQueue):
     print("-"*10, "Standardowy Model", "-"*10)
@@ -123,7 +149,7 @@ def firstQueueCheck():
 firstQueueCheck()
 
 
-def ModifiedModel(office, customerQueue):
+def modifiedModel(office, customerQueue):
     numberOfIterations = 0
     while True:
         office.passCycle()
@@ -139,13 +165,34 @@ def secondQueueCheck():
     modelTimes = [[], [], []]
     for queueIter in range(100):
         customerQueue = CustomerQueue(40)
-        modelTimes[0].append(ModifiedModel(Office(3, 3, 3), copy.deepcopy(customerQueue)))
-        modelTimes[1].append(ModifiedModel(Office(2, 2, 2, 3), copy.deepcopy(customerQueue)))
-        modelTimes[2].append(ModifiedModel(Office(1, 2, 3, 1), copy.deepcopy(customerQueue)))
-    plt.hist(modelTimes[0], color="yellow")
-    plt.hist(modelTimes[1], color="red")
-    plt.hist(modelTimes[2], color="orange")
+        modelTimes[0].append(modifiedModel(Office(3, 3, 3), copy.deepcopy(customerQueue)))
+        modelTimes[1].append(modifiedModel(Office(2, 2, 2, 3), copy.deepcopy(customerQueue)))
+        modelTimes[2].append(modifiedModel(Office(1, 2, 3, 1), copy.deepcopy(customerQueue)))
+    plt.hist(modelTimes[0], color="yellow", label="3A,3B,3C")
+    plt.hist(modelTimes[1], color="red", label="2A,2B,2C,3E")
+    plt.hist(modelTimes[2], color="orange", label="1A,2B,3C,1E")
+    plt.legend()
     plt.show()
 
 
 secondQueueCheck()
+
+
+def sortedTest():
+    print("-" * 20, "3. Trzy Urzedy", "-" * 20)
+    customerQueue = CustomerQueue(30)
+    customerQueue1 = copy.deepcopy(customerQueue)
+    customerQueue2 = copy.deepcopy(customerQueue)
+    customerQueue1.bubbleSort1()
+    customerQueue2.bubbleSort2()
+    print("-" * 20, "rosnąco", "-" * 20)
+    standardModel(Office(3, 3, 3), copy.deepcopy(customerQueue1))
+    standardModel(Office(2, 2, 2, 3), copy.deepcopy(customerQueue1))
+    standardModel(Office(1, 2, 3, 1), copy.deepcopy(customerQueue1))
+    print("-" * 20, "malejaco", "-" * 20)
+    standardModel(Office(3, 3, 3), copy.deepcopy(customerQueue2))
+    standardModel(Office(2, 2, 2, 3), copy.deepcopy(customerQueue2))
+    standardModel(Office(1, 2, 3, 1), copy.deepcopy(customerQueue2))
+
+
+sortedTest()

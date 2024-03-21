@@ -114,9 +114,9 @@ plotExecuitonTimes()
 def modifiedBubbleSortComparison():
     print("-"*10, "czasy działania wszystkich trzech wersji implementacyjnych algorytmu sortowania bąbelkowego", "-"*10)
     lst = Sort.generateList(1000)
-    print("bubbleSort", Sort.checkExecutionTime(Sort.bubbleSort, lst))
-    print("bubbleSortBreak", Sort.checkExecutionTime(Sort.bubbleSortBreak, lst))
-    print("bubbleSortShort", Sort.checkExecutionTime(Sort.bubbleSortShort, lst))
+    print("bubbleSort", Sort.checkExecutionTime(Sort.bubbleSort, lst), "ns")
+    print("bubbleSortBreak", Sort.checkExecutionTime(Sort.bubbleSortBreak, lst), "ns")
+    print("bubbleSortShort", Sort.checkExecutionTime(Sort.bubbleSortShort, lst), "ns")
 modifiedBubbleSortComparison()
 
 def executionTests():
