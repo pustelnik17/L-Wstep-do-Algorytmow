@@ -10,7 +10,6 @@ class BinaryTree:
     def __init__(self, root=None):
         self.root = root
 
-
     def print(self):
         def _print(node: Node, indents: int):
             print(node.value, sep="")
