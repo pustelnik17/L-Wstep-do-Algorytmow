@@ -1,13 +1,5 @@
 # Hubert Jackowski
-import copy
-
-
-class Node:
-    def __init__(self, value=None, parent=None):
-        self.value = value
-        self.left = None
-        self.right = None
-        self.parent = parent
+from Node import Node
 
 
 class BinaryTree:
@@ -121,3 +113,63 @@ class BinaryTree:
         treeRoot = _buildTree(lst)
         _cutBlankBranches(treeRoot)
         return BinaryTree(treeRoot)
+
+    @staticmethod
+    def height(currentNode: Node):
+        if currentNode.parent is None:
+            return 0
+        return BinaryTree.height(currentNode.parent) + 1
+
+    def numberOfVertices(self) -> dict:
+        numberOfVertices = dict()
+
+        if self.root is None:
+            numberOfVertices[0] = 0
+            return numberOfVertices
+        queue = [self.root]
+
+        while len(queue) > 0:
+            node = queue.pop(0)
+            height = BinaryTree.height(node)
+            try:
+                numberOfVertices[height] += 1
+            except KeyError:
+                numberOfVertices[height] = 1
+            # print(_height(node), node.value, " ")
+            if node.left is not None:
+                queue.append(node.left)
+            if node.right is not None:
+                queue.append(node.right)
+
+        return numberOfVertices
+
+    def shortestPathToRoot(self):
+        if self.root is None:
+            return
+        queue = [self.root]
+
+        while len(queue) > 0:
+            node = queue.pop(0)
+            if node.left is None and node.right is None:
+                return BinaryTree.height(node)
+            if node.left is not None:
+                queue.append(node.left)
+            if node.right is not None:
+                queue.append(node.right)
+
+    def getLeavesValueByHeight(self, height):
+        leavesOnHeight = []
+        if self.root is None:
+            return
+        queue = [self.root]
+
+        while len(queue) > 0:
+            node = queue.pop(0)
+            if BinaryTree.height(node) == height:
+                leavesOnHeight.append(node.value)
+            if node.left is not None:
+                queue.append(node.left)
+            if node.right is not None:
+                queue.append(node.right)
+
+        return leavesOnHeight
