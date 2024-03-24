@@ -41,7 +41,7 @@ class TextCompare:
         return distance
 
     @staticmethod
-    def dictionarySimilar(word: str) -> list[str]:
+    def getSimilar(word: str) -> list[str]:
         def _levenshteinDistance(a: str, b: str) -> int:
             if len(a) == 0:
                 return len(b)
@@ -76,3 +76,18 @@ class TextCompare:
             result.append(dct.pop(bestIndex))
 
         return result
+
+    @staticmethod
+    def getSymbolDensity(word: str) -> dict[str, float]:
+        symbolDensity = dict()
+        length = len(word)
+        for symbol in word:
+            try:
+                symbolDensity[symbol] += 1
+            except KeyError:
+                symbolDensity[symbol] = 1
+
+        for key, value in symbolDensity.items():
+            symbolDensity[key] = value/length
+
+        return symbolDensity

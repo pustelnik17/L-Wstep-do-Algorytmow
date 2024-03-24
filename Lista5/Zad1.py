@@ -25,7 +25,7 @@ print(left, right, TextCompare.hammingDistanceKeyboardSlip(left, right))
 
 
 print("-"*20, "Hamming Distance Keyboard Slip", "-"*20)
-print(TextCompare.dictionarySimilar("reel"))
-print(TextCompare.dictionarySimilar("reels"))
-print(TextCompare.dictionarySimilar("ree"))
-print(TextCompare.dictionarySimilar("rf"))
+print(TextCompare.getSimilar("reel"))
+print(TextCompare.getSimilar("reels"))
+print(TextCompare.getSimilar("ree"))
+print(TextCompare.getSimilar("rf"))
