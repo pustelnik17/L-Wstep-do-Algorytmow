@@ -24,7 +24,7 @@ left, right = "wer", "wey"
 print(left, right, TextCompare.hammingDistanceKeyboardSlip(left, right))
 
 
-print("-"*20, "Hamming Distance Keyboard Slip", "-"*20)
+print("-"*20, "Dictionary Check", "-"*20)
 print(TextCompare.getSimilar("reel"))
 print(TextCompare.getSimilar("reels"))
 print(TextCompare.getSimilar("ree"))
