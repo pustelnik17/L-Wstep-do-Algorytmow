@@ -67,7 +67,7 @@ class TextCompare:
         dct = list(dictionary)
 
         if numpy.min(distances) == 0:
-            return [dct[numpy.argmin(distances)]]
+            return "OK"
 
         result = []
         for _ in range(3):
