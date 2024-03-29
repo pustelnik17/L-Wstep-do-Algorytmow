@@ -272,7 +272,7 @@ class TextCompare:
         return TextCompare.checkLanguageByVowel(TextCompare.getVowelDensity(TextCompare.getFileData(path)))
 
     @staticmethod
-    def longestCommonSubstring(left, right):
+    def longestCommonSubstring(left: str, right: str) -> str:
         result = ""
         len1, len2 = len(left), len(right)
         for i in range(len1):
@@ -288,7 +288,7 @@ class TextCompare:
         return result
 
     @staticmethod
-    def longestCommonSubsequence(left, right):
+    def longestCommonSubsequence(left: str, right: str) -> str:
         m = len(left)
         n = len(right)
         L = [[0 for i in range(n + 1)] for j in range(m + 1)]
@@ -325,4 +325,3 @@ class TextCompare:
             return TextCompare.levenshteinDistance(a[1:], b[1:])
         return 1 + min([TextCompare.levenshteinDistance(a[1:], b), TextCompare.levenshteinDistance(a, b[1:]),
                         TextCompare.levenshteinDistance(a[1:], b[1:])])
-    
