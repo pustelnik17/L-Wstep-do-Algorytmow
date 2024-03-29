@@ -1,8 +1,10 @@
 # Hubert Jackowski
 import numpy
+import pathlib
 
 
 class TextCompare:
+
     @staticmethod
     def hammingDistance(left: str, right: str) -> int:
         if len(left) != len(right):
@@ -67,7 +69,7 @@ class TextCompare:
         dct = list(dictionary)
 
         if numpy.min(distances) == 0:
-            return "OK"
+            return ["OK"]
 
         result = []
         for _ in range(3):
@@ -78,16 +80,192 @@ class TextCompare:
         return result
 
     @staticmethod
+    def getFileData(path: pathlib.Path):
+        with open(path) as file:
+            data = file.read()
+            return data
+
+    @staticmethod
     def getSymbolDensity(word: str) -> dict[str, float]:
+        word = word.lower()
         symbolDensity = dict()
-        length = len(word)
+        alphaLength = 0
         for symbol in word:
-            try:
-                symbolDensity[symbol] += 1
-            except KeyError:
-                symbolDensity[symbol] = 1
+            if symbol.isalpha():
+                alphaLength += 1
+                try:
+                    symbolDensity[symbol] += 1
+                except KeyError:
+                    symbolDensity[symbol] = 1
 
         for key, value in symbolDensity.items():
-            symbolDensity[key] = value/length
+            symbolDensity[key] = (value / alphaLength) * 100
 
         return symbolDensity
+
+    @staticmethod
+    def checkLanguageByLetter(wordSymbolDensity: dict[str, float]) -> str:
+        letterLst = [
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'i',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'o',
+            'p',
+            'q',
+            'r',
+            's',
+            't',
+            'u',
+            'v',
+            'w',
+            'x',
+            'y',
+            'z'
+        ]
+        englishLst = [
+            8.167,
+            1.492,
+            2.782,
+            4.253,
+            12.702,
+            2.228,
+            2.015,
+            6.094,
+            6.966,
+            0.253,
+            1.772,
+            4.025,
+            2.406,
+            6.749,
+            7.507,
+            1.929,
+            0.095,
+            5.987,
+            6.327,
+            9.056,
+            2.758,
+            0.978,
+            2.360,
+            0.250,
+            1.974,
+            0.074
+        ]
+        germanLst = [
+            7.094,
+            1.886,
+            2.732,
+            5.076,
+            16.396,
+            1.656,
+            3.009,
+            4.577,
+            6.550,
+            0.268,
+            1.417,
+            3.437,
+            2.534,
+            9.776,
+            3.037,
+            0.670,
+            0.018,
+            7.003,
+            7.577,
+            6.154,
+            5.161,
+            0.846,
+            1.921,
+            0.034,
+            0.039,
+            1.134
+        ]
+        polishLst = [
+            9.986,
+            1.482,
+            4.436,
+            3.293,
+            9.052,
+            0.312,
+            1.377,
+            1.072,
+            8.286,
+            2.343,
+            3.411,
+            3.882,
+            2.911,
+            5.785,
+            8.413,
+            3.101,
+            0.003,
+            4.571,
+            4.946,
+            3.966,
+            2.347,
+            0.034,
+            4.549,
+            0.019,
+            3.857,
+            6.566]
+        englishDict = {letterLst[i]: englishLst[i] for i in range(len(letterLst))}
+        germanDict = {letterLst[i]: germanLst[i] for i in range(len(letterLst))}
+        polishDict = {letterLst[i]: polishLst[i] for i in range(len(letterLst))}
+
+        languageGuessCount = {"english": 0, "german": 0, "polish": 0}
+        keyLst = ["english", "german", "polish"]
+        for key, value in wordSymbolDensity.items():
+            valueLst = [abs(englishDict[key] - value), abs(germanDict[key] - value), abs(polishDict[key] - value)]
+            languageGuessCount[keyLst[numpy.argmin(valueLst)]] += 1
+
+        return max(languageGuessCount, key=languageGuessCount.get)
+
+    @staticmethod
+    def langTestLetter(path: pathlib.Path):
+        return TextCompare.checkLanguageByLetter(TextCompare.getSymbolDensity(TextCompare.getFileData(path)))
+
+    @staticmethod
+    def getVowelDensity(word: str) -> dict[str, float]:
+        word = word.lower()
+        symbolDensity = dict()
+        alphaLength = 0
+        vowels = ["a", "e", "i", "o", "u", "y"]
+        for symbol in word:
+            if symbol.isalpha():
+                alphaLength += 1
+                destination = "vowel" if symbol in vowels else "consonant"
+                try:
+                    symbolDensity[destination] += 1
+                except KeyError:
+                    symbolDensity[destination] = 1
+
+        for key, value in symbolDensity.items():
+            symbolDensity[key] = (value / alphaLength) * 100
+
+        return symbolDensity
+
+    @staticmethod
+    def checkLanguageByVowel(wordVowelDensity: dict[str, float]) -> str:
+        englishDict = {"vowel": 40.33, "consonant": 59.67}
+        germanDict = {"vowel": 38.55, "consonant": 61.46}
+        polishDict = {"vowel": 44.28, "consonant": 55.72}
+
+        languageGuessCount = {"english": 0, "german": 0, "polish": 0}
+        keyLst = ["english", "german", "polish"]
+        for key, value in wordVowelDensity.items():
+            valueLst = [abs(englishDict[key] - value), abs(germanDict[key] - value), abs(polishDict[key] - value)]
+            languageGuessCount[keyLst[numpy.argmin(valueLst)]] += 1
+
+        return max(languageGuessCount, key=languageGuessCount.get)
+
+    @staticmethod
+    def langTestVowel(path: pathlib.Path):
+        return TextCompare.checkLanguageByVowel(TextCompare.getVowelDensity(TextCompare.getFileData(path)))
