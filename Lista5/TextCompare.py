@@ -264,8 +264,65 @@ class TextCompare:
             valueLst = [abs(englishDict[key] - value), abs(germanDict[key] - value), abs(polishDict[key] - value)]
             languageGuessCount[keyLst[numpy.argmin(valueLst)]] += 1
 
+        print(wordVowelDensity)
         return max(languageGuessCount, key=languageGuessCount.get)
 
     @staticmethod
     def langTestVowel(path: pathlib.Path):
         return TextCompare.checkLanguageByVowel(TextCompare.getVowelDensity(TextCompare.getFileData(path)))
+
+    @staticmethod
+    def longestCommonSubstring(left, right):
+        result = ""
+        len1, len2 = len(left), len(right)
+        for i in range(len1):
+            match = ""
+            for j in range(len2):
+                if i + j < len1 and left[i + j] == right[j]:
+                    match += right[j]
+                else:
+                    if len(match) > len(result):
+                        result = match
+                    match = ""
+
+        return result
+
+    @staticmethod
+    def longestCommonSubsequence(left, right):
+        m = len(left)
+        n = len(right)
+        L = [[0 for i in range(n + 1)] for j in range(m + 1)]
+        for i in range(m + 1):
+            for j in range(n + 1):
+                if i == 0 or j == 0:
+                    L[i][j] = 0
+                elif left[i - 1] == right[j - 1]:
+                    L[i][j] = L[i - 1][j - 1] + 1
+                else:
+                    L[i][j] = max(L[i - 1][j], L[i][j - 1])
+        lcs = ""
+        i = m
+        j = n
+        while i > 0 and j > 0:
+            if left[i - 1] == right[j - 1]:
+                lcs += left[i - 1]
+                i -= 1
+                j -= 1
+            elif L[i - 1][j] > L[i][j - 1]:
+                i -= 1
+            else:
+                j -= 1
+
+        return lcs[::-1]
+
+    @staticmethod
+    def levenshteinDistance(a: str, b: str) -> int:
+        if len(a) == 0:
+            return len(b)
+        if len(b) == 0:
+            return len(a)
+        if a[0] == b[0]:
+            return TextCompare.levenshteinDistance(a[1:], b[1:])
+        return 1 + min([TextCompare.levenshteinDistance(a[1:], b), TextCompare.levenshteinDistance(a, b[1:]),
+                        TextCompare.levenshteinDistance(a[1:], b[1:])])
+    
