@@ -34,7 +34,7 @@ class Graph:
         for node in self.G:
             if node not in visitedNodesOuter:
                 visitedNodesOuter.append(node)
-                visitedNodesInner:  list[Node] = []
+                visitedNodesInner: list[Node] = []
                 _deepFirstSearch(node)
                 visitedNodesInnerValue = [currentNode.getValue() for currentNode in visitedNodesInner]
 
@@ -71,6 +71,43 @@ class Graph:
     def getEdges(self) -> list[tuple[str, str, int]]:
         return [(node.getValue(), weight[0].getValue(), weight[1])
                 for node in self.G for weight in node.getNeighbours()]
+
+    def dijkstra(self):
+        def _sortTupleList(tupleList):
+            lst = len(tupleList)
+            for i in range(0, lst):
+
+                for j in range(0, lst - i - 1):
+                    if tupleList[j][1] > tupleList[j + 1][1]:
+                        temp = tupleList[j]
+                        tupleList[j] = tupleList[j + 1]
+                        tupleList[j + 1] = temp
+            return tupleList
+
+        def _dijkstra(current, previous):
+            nonlocal distance, visitedNodes
+
+            if current in visitedNodes:
+                return
+
+            visitedNodes.append(current)
+            neighbours = current.getNeighbours()
+
+            for neighbour, weight in neighbours:
+                if weight + previous < distance[neighbour.getValue()]:
+                    distance[neighbour.getValue()] = weight + previous
+
+            for neighbour, weight in _sortTupleList(neighbours):
+                _dijkstra(neighbour, distance[current.getValue()] + weight)
+
+        for subGraph in self.getConnectedSubGraphs():
+            print("-"*5, "Sub Graph", "-"*5)
+            for node in subGraph.G:
+                visitedNodes = []
+                distance: dict[str | None, int] = {vertex: 10000 for vertex in subGraph.vertices}
+                distance[node.getValue()] = 0
+                _dijkstra(node, 0)
+                print(node.getValue(), "->", distance)
 
     def print(self):
         for node in self.G:
