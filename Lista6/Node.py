@@ -1,4 +1,6 @@
 # Hubert Jackowski
+from __future__ import annotations
+
 
 class Node:
     def __init__(self, value=None):
@@ -14,5 +16,5 @@ class Node:
     def getValue(self) -> str:
         return self.value
 
-    def getNeighbours(self):
+    def getNeighbours(self) -> list[tuple[Node, int]]:
         return [(self.neighbours[i], self.weights[i]) for i in range(len(self.neighbours))]
