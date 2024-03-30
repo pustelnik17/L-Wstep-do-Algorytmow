@@ -109,6 +109,22 @@ class Graph:
                 _dijkstra(node, 0)
                 print(node.getValue(), "->", distance)
 
+    def kruskal(self):
+        for subGraph in self.getConnectedSubGraphs():
+            print("-"*5, "Sub Graph", "-"*5)
+            G = Graph(subGraph.vertices, [])
+            visitedEdges: set = set()
+            for origin, target, weight in subGraph.getEdges():
+
+                if origin in visitedEdges and target in visitedEdges:
+                    continue
+                else:
+                    G.addEdges([(origin, target, weight)])
+                    visitedEdges.add(origin)
+                    visitedEdges.add(target)
+
+            G.draw()
+
     def print(self):
         for node in self.G:
             print(node.getValue(), "->", end=" ")
