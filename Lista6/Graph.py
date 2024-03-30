@@ -1,6 +1,7 @@
 # Hubert Jackowski
 from __future__ import annotations
 
+import copy
 from random import sample, randint
 from networkx import DiGraph, draw_networkx_labels, draw_networkx_edge_labels, draw, circular_layout
 from matplotlib.pyplot import show
@@ -110,20 +111,33 @@ class Graph:
                 print(node.getValue(), "->", distance)
 
     def kruskal(self):
+        def _find(currentOrigin: Node, currentTarget: Node) -> bool:
+            visitedNodes = set()
+            queue = [currentOrigin]
+
+            while len(queue) > 0:
+                node = queue.pop(0)
+                if node == currentTarget:
+                    return True
+                if node not in visitedNodes:
+                    visitedNodes.add(node)
+                    for neighbour, neighbourWeight in node.getNeighbours():
+                        queue.append(neighbour)
+
+            return False
+
         for subGraph in self.getConnectedSubGraphs():
-            print("-"*5, "Sub Graph", "-"*5)
             G = Graph(subGraph.vertices, [])
-            visitedEdges: set = set()
-            for origin, target, weight in subGraph.getEdges():
+            edges = subGraph.getEdges()
+            edges.sort(key=lambda x: x[2])
 
-                if origin in visitedEdges and target in visitedEdges:
-                    continue
-                else:
+            for origin, target, weight in edges:
+                if not _find(G.getNode(origin), G.getNode(target)):
                     G.addEdges([(origin, target, weight)])
-                    visitedEdges.add(origin)
-                    visitedEdges.add(target)
-
             G.draw()
+
+    def prim(self):
+        pass
 
     def print(self):
         for node in self.G:
