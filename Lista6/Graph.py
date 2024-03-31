@@ -1,7 +1,6 @@
 # Hubert Jackowski
 from __future__ import annotations
 
-import copy
 from random import sample, randint
 from networkx import DiGraph, draw_networkx_labels, draw_networkx_edge_labels, draw, circular_layout
 from matplotlib.pyplot import show
@@ -102,7 +101,7 @@ class Graph:
                 _dijkstra(neighbour, distance[current.getValue()] + weight)
 
         for subGraph in self.getConnectedSubGraphs():
-            print("-"*5, "Sub Graph", "-"*5)
+            print("-" * 5, "Sub Graph", "-" * 5)
             for node in subGraph.G:
                 visitedNodes = []
                 distance: dict[str | None, int] = {vertex: 10000 for vertex in subGraph.vertices}
@@ -137,7 +136,29 @@ class Graph:
             G.draw()
 
     def prim(self):
-        pass
+        def _prim(graph: Graph, node: Node):
+            nonlocal visitedNodeValues, edges
+            visitedNodeValues.append(node)
+            for edge in [(node.getValue(), neighbour.getValue(), weight)
+                         for neighbour, weight in node.getNeighbours()]:
+                edges.append(edge)
+                edges.sort(key=lambda x: x[2])
+
+            while len(edges) > 0:
+                nextEdge = edges.pop(0)
+                nextNode = self.getNode(nextEdge[1])
+                if nextNode not in visitedNodeValues:
+                    graph.addEdges([nextEdge])
+                    _prim(graph, nextNode)
+                    break
+
+        for subGraph in self.getConnectedSubGraphs():
+            G = Graph(subGraph.vertices, [])
+            visitedNodeValues: list[Node] = [self.getNode(G.vertices[0])]
+            edges: list[tuple[str, str, int]] = []
+            _prim(G, self.getNode(G.vertices[0]))
+            G.draw()
+
 
     def print(self):
         for node in self.G:
