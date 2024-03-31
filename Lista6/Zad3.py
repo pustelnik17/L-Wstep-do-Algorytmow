@@ -10,5 +10,5 @@ G.draw()
 print("-"*20, "Kruskal's Algorithm", "-"*20)
 G.kruskal()
 
-# print("-"*20, "Prim's Algorithm", "-"*20)
-# G.prim()
+print("-"*20, "Prim's Algorithm", "-"*20)
+G.prim()
