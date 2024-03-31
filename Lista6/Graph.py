@@ -159,7 +159,6 @@ class Graph:
             _prim(G, self.getNode(G.vertices[0]))
             G.draw()
 
-
     def print(self):
         for node in self.G:
             print(node.getValue(), "->", end=" ")
