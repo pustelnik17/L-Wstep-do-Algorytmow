@@ -135,7 +135,6 @@ class BinaryTree:
                 numberOfVertices[height] += 1
             except KeyError:
                 numberOfVertices[height] = 1
-            # print(_height(node), node.value, " ")
             if node.left is not None:
                 queue.append(node.left)
             if node.right is not None:
