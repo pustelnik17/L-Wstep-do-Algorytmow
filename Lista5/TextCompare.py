@@ -290,7 +290,7 @@ class TextCompare:
     def longestCommonSubsequence(left: str, right: str) -> str:
         m = len(left)
         n = len(right)
-        L = [[0 for i in range(n + 1)] for j in range(m + 1)]
+        L = [[0 for _ in range(n + 1)] for __ in range(m + 1)]
         for i in range(m + 1):
             for j in range(n + 1):
                 if i == 0 or j == 0:
