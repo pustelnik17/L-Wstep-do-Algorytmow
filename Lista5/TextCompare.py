@@ -264,7 +264,6 @@ class TextCompare:
             valueLst = [abs(englishDict[key] - value), abs(germanDict[key] - value), abs(polishDict[key] - value)]
             languageGuessCount[keyLst[numpy.argmin(valueLst)]] += 1
 
-        print(wordVowelDensity)
         return max(languageGuessCount, key=languageGuessCount.get)
 
     @staticmethod
