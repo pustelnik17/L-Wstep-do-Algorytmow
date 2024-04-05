@@ -164,7 +164,7 @@ class BinaryTree:
 
         while len(queue) > 0:
             node = queue.pop(0)
-            if BinaryTree.height(node) == height and self.right is None and self.left is None:
+            if BinaryTree.height(node) == height and node.right is None and node.left is None:
                 leavesOnHeight.append(node.value)
             if node.left is not None:
                 queue.append(node.left)
